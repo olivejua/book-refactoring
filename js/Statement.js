@@ -6,9 +6,6 @@ function statement(invoices, plays) {
     let totalAmount = 0;
     let volumeCredits = 0;
     let result = `청구 내역 (고객명: ${invoices.customer}\n`
-    const format = new Intl.NumberFormat("en-US", {
-        style: "currency", currency: "USD", minimumFractionDigits: 2
-    }).format();
 
     for (let perf of invoices.performances) {
         const play = plays[perf.playID]
@@ -47,9 +44,15 @@ function statement(invoices, plays) {
     return result;
 }
 
-// const jsonInvoices = getJSONValue('/json/invoices.json')
-// const jsonPlays = getJSONValue('/json/plays.json')
-// console.log('file out')
-// console.log(jsonInvoices);
-// console.log(jsonPlays);
-// console.log(statement(jsonInvoices, jsonPlays));
+function run() {
+    getJSONValue('/json/invoices.json')
+        .then(invoices => {
+            getJSONValue('/json/plays.json')
+                .then(plays => {
+                    const result = statement(invoices[0], plays);
+                    console.log(result);
+                })
+        })
+}
+
+run();

@@ -17,19 +17,25 @@
 //     });
 
 function readJSON(file, callback) {
-    var rawFile = new XMLHttpRequest();
-    rawFile.overrideMimeType("application/json");
-    rawFile.open("GET", file, true);
-    rawFile.onreadystatechange = function() {
-        if (rawFile.readyState === 4 && rawFile.status == "200") {
-            callback(rawFile.responseText);
+    return new Promise(function () {
+        let rawFile = new XMLHttpRequest();
+        rawFile.overrideMimeType("application/json");
+        rawFile.open("GET", file, true);
+        rawFile.onreadystatechange = function() {
+            if (rawFile.readyState === 4 && rawFile.status == "200") {
+                callback(rawFile.responseText);
+            }
         }
-    }
-    rawFile.send(null);
+        rawFile.send(null);
+    })
 }
 
 function getJSONValue(file) {
-    readJSON(file, (text) => JSON.parse(text));
+    return new Promise(function(resolve) {
+        readJSON(file, (text) => {
+            resolve(JSON.parse(text));
+        });
+    });
 }
 
 
