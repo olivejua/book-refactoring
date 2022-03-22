@@ -44,6 +44,7 @@ function statement(invoices, plays) {
     return result;
 }
 
+
 function run() {
     getJSONValue('/json/invoices.json')
         .then(invoices => {
